@@ -5,3 +5,7 @@ HOW TO RUN THE APP
 3) Open Terminal in the project
 4) Run: npm i
 5) Run: nodemon app.js
+
+
+some stuff
+App uses nodemon to quick reload the page while youre working. crtl+S saves then you refresh the browser to quickly see changes
