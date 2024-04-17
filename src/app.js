@@ -2,7 +2,7 @@ const express = require('express');
 var cookieParser = require('cookie-parser');
 var path = require("path");
 
-const routes = require("./routes/index.js");
+const router = require("./routes/index.js");
 
 const app = express();
 
@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // use the router
-app.use('/', routes);
+app.use(router);
 
 
 // Start the server
