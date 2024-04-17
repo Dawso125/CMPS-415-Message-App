@@ -1,0 +1,1 @@
+// models are just gonna be in the database i dont feel like making viewmodels and what not

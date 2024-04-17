@@ -1,20 +1,19 @@
-const express = require('express');
-var cookieParser = require('cookie-parser');
-var path = require("path");
+const express = require("express");
+var cookieParser = require("cookie-parser");
 
-const router = require("./routes/index.js");
+const userController = require("./routes/userController.js");
+const homeController = require("./routes/homeController.js");
 
 const app = express();
 
 // present views using ejs
-app.set('view engine', 'ejs');
+app.set("view engine", "ejs");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// use the router
-app.use(router);
-
+// use the router. dont app.get or stuff
+app.use(homeController, userController);
 
 // Start the server
 const PORT = process.env.PORT || 3000;
