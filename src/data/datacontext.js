@@ -1,6 +1,6 @@
 const { MongoClient } = require("mongodb");
 
-
+// The DataContext will only be responsible for opening and closing connections to the Db
 class DataContext {
     constructor(uri) {
         this.uri = uri;
@@ -29,25 +29,12 @@ class DataContext {
     }
 
     // Call this first to make sure a Datacontext does not yet exist
+    // This can get the instance that already exists of dataContext
     static getInstance(uri) {
-        console.log("getInstance() called");
         if (!DataContext.instance) {
             DataContext.instance = new DataContext(uri);
         }
         return DataContext.instance;
-    }
-
-    // test function for connecting to the db
-    async getUser(username, password) {
-        try {
-            await this.connect();
-            const database = this.client.db('MyDBexample');
-            const users = database.collection('EXP-MONGO');
-            const query = { user_ID: username, Password: password };
-            return await users.findOne(query);
-        } finally {
-            await this.close();
-        }
     }
 
     
