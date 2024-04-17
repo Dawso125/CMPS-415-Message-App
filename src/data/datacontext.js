@@ -4,7 +4,7 @@ const { MongoClient } = require("mongodb");
 class DataContext {
     constructor(uri) {
         this.uri = uri;
-        this.client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+        this.client = new MongoClient(uri);
         console.log("DataContext instance created"); // Add debug statement
     }
 
@@ -28,14 +28,16 @@ class DataContext {
         }
     }
 
+    // Call this first to make sure a Datacontext does not yet exist
     static getInstance(uri) {
-        console.log("getInstance() called"); // Add debug statement
+        console.log("getInstance() called");
         if (!DataContext.instance) {
             DataContext.instance = new DataContext(uri);
         }
         return DataContext.instance;
     }
 
+    // test function for connecting to the db
     async getUser(username, password) {
         try {
             await this.connect();
