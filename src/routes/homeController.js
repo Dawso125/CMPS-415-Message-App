@@ -1,9 +1,15 @@
+// Import express
 const express = require("express");
+
+// Create a router
 const homeController = express.Router();
 
 // Home Page
-homeController.get("/", async function (req, res){
-    res.send("HOME PAGE \n You can test the database connection at /testDb");
-  });
 
-  module.exports = homeController;
+homeController.get("/", async (req, res) => {
+    // Render the home.ejs view
+    res.render("home");
+});
+
+// Export the homeController
+module.exports = homeController;

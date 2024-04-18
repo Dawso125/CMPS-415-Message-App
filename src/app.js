@@ -15,6 +15,7 @@ app.use(cookieParser());
 // use the router. dont app.get or stuff
 app.use(homeController, userController);
 
+
 // Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
