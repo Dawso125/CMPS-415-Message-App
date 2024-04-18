@@ -5,10 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bobber Dashboard</title>
 </head>
-
-<h1>Bobber Dashboard</h1>
 <body>
-    <h1>Logged in as: <%= username %></h1>
-    
+    <h1>Bobber Dashboard</h1>
+    <% if (username) { %>
+        <h2>Logged in as: <%= username %></h2>
+    <% } else { %>
+        <p>Not logged in</p>
+    <% } %>
 </body>
 </html>

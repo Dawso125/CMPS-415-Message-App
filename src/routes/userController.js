@@ -37,8 +37,8 @@ userController.post('/login', async function (req, res){
       if (user) {
           console.log(statusCodes.OK);
           console.log("Logging in: ", user);
-          console.log(username);
-          res.render('dashboard', { username: username });
+          req.session.username = username; // set the session user
+          res.redirect('/dashboard');
       } else {
           console.log(statusCodes.BAD_REQUEST);
           res.render('login', { error: 'Invalid login credentials' });

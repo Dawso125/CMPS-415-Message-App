@@ -1,4 +1,5 @@
 const express = require("express");
+const session = require("express-session");
 var cookieParser = require("cookie-parser");
 
 const userController = require("./routes/userController.js");
@@ -6,6 +7,12 @@ const homeController = require("./routes/homeController.js");
 const dashboardController = require("./routes/dashboardController.js");
 
 const app = express();
+
+app.use(session({
+  secret: '1234',
+  resave: false,
+  saveUninitialized: true
+}));
 
 // present views using ejs
 app.set("view engine", "ejs");
