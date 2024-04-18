@@ -17,17 +17,29 @@ async function getUser(user_ID, Password) {
   }
 }
 
-// async function registerUser(user_ID, Password){
-//   try {
-//     await dataContext.connect();
-//     const database = client.db('MyDBexample');
-//     const users = database.collection('EXP-MONGO');
+async function registerUser(user_ID, Password) {
+  try {
+    await dataContext.connect();
+    const database = dataContext.client.db("MyDBexample");
+    const users = database.collection("EXP-MONGO");
 
-//     const existingUser = await users.findOne({user_ID});
-    
-//   }
-// }
+    const existingUser = await users.findOne({ user_ID });
+
+    if (existingUser) {
+      return {success: false };
+    }
+
+    console.log("Registering User: ", user_ID);
+    await users.insertOne({ user_ID, Password });
+    return { success: true };
+  
+  } finally {
+    console.log("closing register connection");
+    await dataContext.close();
+  }
+}
 
 module.exports = {
   getUser,
+  registerUser
 };
