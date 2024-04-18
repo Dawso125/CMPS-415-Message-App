@@ -5,7 +5,8 @@ const express = require("express");
 const dashboardController = express.Router();
 
 dashboardController.get('/dashboard', async function(req, res){
-    res.render('dashboard', {error: null});
+    const username = req.session.username;
+    res.render('dashboard', { username: username, error: null });
 });
 
 module.exports = dashboardController;
