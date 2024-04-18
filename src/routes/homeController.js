@@ -5,6 +5,7 @@ const express = require("express");
 const homeController = express.Router();
 
 // Home Page
+
 homeController.get("/", async (req, res) => {
     // Render the home.ejs view
     res.render("home");
