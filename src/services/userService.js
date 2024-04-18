@@ -17,6 +17,8 @@ async function getUser(user_ID, Password) {
   }
 }
 
+// this function will log in a user, since we dont want to return anything in particular,
+// we return success = true / success = false
 async function registerUser(user_ID, Password) {
   try {
     await dataContext.connect();
@@ -26,13 +28,12 @@ async function registerUser(user_ID, Password) {
     const existingUser = await users.findOne({ user_ID });
 
     if (existingUser) {
-      return {success: false };
+      return { success: false }; // return success status
     }
 
     console.log("Registering User: ", user_ID);
     await users.insertOne({ user_ID, Password });
-    return { success: true };
-  
+    return { success: true }; // return success status
   } finally {
     console.log("closing register connection");
     await dataContext.close();
@@ -41,5 +42,5 @@ async function registerUser(user_ID, Password) {
 
 module.exports = {
   getUser,
-  registerUser
+  registerUser,
 };

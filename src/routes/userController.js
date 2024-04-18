@@ -20,10 +20,16 @@ userController.get("/testDb", async function (req, res){
   }
 });
 
+// login endpoint
 userController.get('/login', async function (req, res){
-  res.render('login', { error: null });
+  try {
+    res.render('login', { error: null });
+  } catch (error){
+    res.render('notFound', { error: "Error loading page" } )
+  }
 });
 
+// post the login request
 userController.post('/login', async function (req, res){
   const { username, password } = req.body;
   try {
@@ -39,25 +45,33 @@ userController.post('/login', async function (req, res){
   } catch (error) {
       // if you hit this, something went horribly uncorrect
       console.error('Login error:', error);
-      res.status(500).send('Internal Server Error');
+      console.log(statusCodes.BAD_REQUEST, error);
   }
 });
 
+//register endpoint
 userController.get('/register', async function (req, res){
-  res.render('register', { error: null });
+  try {
+    res.render('register', { error: null });
+  } catch (error){
+    res.render('notFound', { error: "Error loading page" } )
+  }
+  
 });
 
+// this will register a new user, they will be asked to log in since we dont return
+// the registered user. We can if we want to
 userController.post('/register', async function (req, res){
   const { username, password } = req.body;
   try {
     const result = await userService.registerUser(username, password);
     if (result.success) {
-      // Registration successful, redirect or send response accordingly
       res.redirect('/login'); // Redirect to login page
     } else {
-      // Handle other cases if needed
+      res.render('register', { error: 'Username is already in use!' });
     }
   } catch (error){
+    // if you hit this, something went horribly uncorrect
     console.log(statusCodes.BAD_REQUEST, error);
 
   }
