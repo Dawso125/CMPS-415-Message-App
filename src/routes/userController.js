@@ -20,4 +20,28 @@ userController.get("/testDb", async (req, res) => {
   }
 });
 
+userController.get('/login', (req, res) => {
+  res.render('login', { error: null });
+});
+
+userController.post('/login', async (req, res) => {
+  const { username, password } = req.body;
+  try {
+      const user = await userService.getUser(username, password);
+      if (user) {
+          console.log(statusCodes.OK);
+          console.log("Logging in: ", user);
+          res.redirect('/');
+      } else {
+          // User not found or invalid credentials
+          res.render('login', { error: 'Invalid username or password' });
+      }
+  } catch (error) {
+      // Handle other errors (e.g., database error)
+      console.error('Login error:', error);
+      res.status(500).send('Internal Server Error');
+  }
+});
+
+
 module.exports = userController;
