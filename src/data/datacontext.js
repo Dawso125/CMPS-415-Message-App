@@ -1,19 +1,24 @@
 const { MongoClient } = require("mongodb");
+const uri = require("../data/connectionString.js");
 
 // The DataContext will only be responsible for opening and closing connections to the Db
 class DataContext {
   constructor(uri) {
-    this.uri = uri;
-    this.client = new MongoClient(uri);
-    console.log("DataContext instance created"); // Add debug statement
+    if (!DataContext.instance) {
+      this.uri = uri;
+      this.client = new MongoClient(this.uri);
+      DataContext.instance = this;
+      console.log("DataContext instance created");
+    }
+    return DataContext.instance;
   }
 
   async connect() {
     try {
       await this.client.connect();
-      console.log("Connected to MongoDB");
+      console.log("Connected dataContext to Database");
     } catch (error) {
-      console.error("Error connecting to MongoDB:", error);
+      console.error("Error connecting dataContext to database:", error);
       throw error;
     }
   }
@@ -21,9 +26,9 @@ class DataContext {
   async close() {
     try {
       await this.client.close();
-      console.log("Disconnected from MongoDB");
+      console.log("Disconnected dataContext from Database");
     } catch (error) {
-      console.error("Error closing MongoDB connection:", error);
+      console.error("Error connecting dataContext to database:", error);
       throw error;
     }
   }
@@ -38,4 +43,4 @@ class DataContext {
   }
 }
 
-module.exports = DataContext;
+module.exports = DataContext

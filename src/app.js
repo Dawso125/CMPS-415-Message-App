@@ -5,6 +5,7 @@ var cookieParser = require("cookie-parser");
 const userController = require("./routes/userController.js");
 const homeController = require("./routes/homeController.js");
 const dashboardController = require("./routes/dashboardController.js");
+const topicController = require("./routes/topicController.js");
 
 const app = express();
 
@@ -14,14 +15,14 @@ app.use(session({
   saveUninitialized: true
 }));
 
-// present views using ejs
+// use ejs for embedding js in the views. its bad i hate it
 app.set("view engine", "ejs");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // use the router. dont app.get or stuff
-app.use(homeController, userController, dashboardController);
+app.use(homeController, userController, dashboardController, topicController);
 
 
 // Start the server
