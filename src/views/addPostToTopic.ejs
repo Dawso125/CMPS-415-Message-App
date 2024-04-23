@@ -1,0 +1,18 @@
+<!-- addPostToTopic.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Post to Topic</title>
+</head>
+<body>
+    <h1>Add Post to Topic</h1>
+    <form action="/postToTopic" method="post">
+        <input type="hidden" name="title" value="<%= title %>">
+        <label for="post">Enter Post:</label>
+        <input type="text" id="post" name="post">
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

@@ -40,7 +40,37 @@ async function postTopic(title){
     }
 }
 
+async function postToTopic(title, post){
+    try{
+    await dataContext.connect();
+		const database = dataContext.client.db("MyDBexample"); // select the db
+		const topicsCollection = database.collection("EXP-MONGO"); // select the collection
+
+        const topic = await topicsCollection.findOne({Title: title});
+        if (!topic){
+            return {success: false};
+        }
+
+        const result = await topicsCollection.updateOne(
+            { Title: title }, 
+            { $push: { Posts: post } } 
+        );
+
+        if (result.modifiedCount === 1) {
+            return { success: true };
+        } else {
+            return { success: false };
+        }
+
+        topic.Posts.push(post);
+        return {success: true};
+    } finally {
+        await dataContext.close();
+    }
+}
+
 module.exports = {
     getAllTopics,
     postTopic,
+    postToTopic,
 }
