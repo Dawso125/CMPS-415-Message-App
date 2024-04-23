@@ -12,5 +12,23 @@
     <% } else { %>
         <p>Not logged in</p>
     <% } %>
+
+    <!-- Display Topics -->
+<div>
+    <a href="/createTopic">Create New Topic</a>
+    <h3>All Topics:</h3>
+    <ul>
+        <% topics.forEach(function(topic) { %>
+            <li>Title: <%= topic.Title %></li>
+            <% if (topic.Posts) { %>
+                <li>Posts: <%= topic.Posts.join(", ") %></li>
+            <% } else { %>
+                <li>No posts available</li>
+            <% } %>
+            <!-- You can handle the other fields similarly -->
+            <br>
+        <% }); %>
+    </ul>
+</div>
 </body>
 </html>
