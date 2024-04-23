@@ -25,4 +25,20 @@ topicController.post("/createTopic", async function (req, res) {
 	}
 });
 
+topicController.post('/postToTopic', async function (req, res){
+	const {title, post} = req.body;
+
+	try {
+		const result = await topicService.postToTopic(title, post);
+
+		if (result.success){
+			console.log("Post added to topic:", title);
+            res.redirect("/dashboard");
+		}
+	} catch (error){
+		console.log(statusCodes.BAD_REQUEST);
+		console.log("Failed to add post to topic: ", error);
+	}
+});
+
 module.exports = topicController;

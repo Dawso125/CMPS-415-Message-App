@@ -1,3 +1,4 @@
+<!-- dashboard.ejs -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,21 +15,29 @@
     <% } %>
 
     <!-- Display Topics -->
-<div>
-    <a href="/createTopic">Create New Topic</a>
-    <h3>All Topics:</h3>
-    <ul>
-        <% topics.forEach(function(topic) { %>
-            <li>Title: <%= topic.Title %></li>
-            <% if (topic.Posts) { %>
-                <li>Posts: <%= topic.Posts.join(", ") %></li>
-            <% } else { %>
-                <li>No posts available</li>
-            <% } %>
-            <!-- You can handle the other fields similarly -->
-            <br>
-        <% }); %>
-    </ul>
-</div>
+    <div>
+        <a href="/createTopic">Create New Topic</a>
+        <h3>All Topics:</h3>
+        <ul>
+            <% topics.forEach(function(topic) { %>
+                <li>Title: <%= topic.Title %></li>
+                <% if (topic.Posts && topic.Posts.length > 0) { %>
+                    <li>Posts:
+                        <% topic.Posts.forEach(function(post) { %>
+                            <%= post %><br>
+                        <% }); %>
+                    </li>
+                <% } else { %>
+                    <li>No posts available</li>
+                <% } %>
+                <!-- Button to route user to add post to topic page -->
+                <form action="/addPostToTopic" method="get">
+                    <input type="hidden" name="title" value="<%= topic.Title %>">
+                    <button type="submit">Add Post to Topic</button>
+                </form>
+                <br> <!-- Line break after each topic -->
+            <% }); %>
+        </ul>
+    </div>
 </body>
 </html>
