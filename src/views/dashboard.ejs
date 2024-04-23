@@ -30,12 +30,14 @@
                 <% } else { %>
                     <li>No posts available</li>
                 <% } %>
-                <!-- Button to route user to add post to topic page -->
+                <!-- Button routes user to a page to add a post to a topic -->
                 <form action="/addPostToTopic" method="get">
                     <input type="hidden" name="title" value="<%= topic.Title %>">
                     <button type="submit">Add Post to Topic</button>
                 </form>
-                <br> <!-- Line break after each topic -->
+                <button type="submit">Subscribe to Topic</button>
+                <hr>
+                <br>
             <% }); %>
         </ul>
     </div>

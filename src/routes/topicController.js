@@ -41,4 +41,8 @@ topicController.post('/postToTopic', async function (req, res){
 	}
 });
 
+topicController.post('/subscribeToTopic', async function (req, res){
+
+});
+
 module.exports = topicController;
