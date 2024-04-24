@@ -20,8 +20,9 @@ async function postTopic(title){
 		const database = dataContext.client.db("MyDBexample"); // select the db
 		const topicsCollection = database.collection("EXP-MONGO"); // select the collection
 
+        // find an existing topic first, prevent duplicates
         const existingTopic = await topicsCollection.findOne({Title: title});
-
+        
         if (existingTopic){
             return {success: false};
         }
@@ -40,12 +41,14 @@ async function postTopic(title){
     }
 }
 
+// a user can post a topic
 async function postToTopic(title, post){
     try{
     await dataContext.connect();
 		const database = dataContext.client.db("MyDBexample"); // select the db
 		const topicsCollection = database.collection("EXP-MONGO"); // select the collection
 
+        // find the topic first
         const topic = await topicsCollection.findOne({Title: title});
         if (!topic){
             return {success: false};
@@ -56,14 +59,44 @@ async function postToTopic(title, post){
             { $push: { Posts: post } } 
         );
 
+        // This works by checking if anything in the record was modified
+        // if its at least 1, then something was modified
+        // which means the update worked
         if (result.modifiedCount === 1) {
             return { success: true };
         } else {
             return { success: false };
         }
 
-        topic.Posts.push(post);
-        return {success: true};
+    } finally {
+        await dataContext.close();
+    }
+}
+
+// add a user to the array of subscribers in a topic
+async function subscribeToTopic(title, user_ID){
+    try {
+        await dataContext.connect();
+		const database = dataContext.client.db("MyDBexample"); // select the db
+		const topicsCollection = database.collection("EXP-MONGO");
+
+        const topic = await topicsCollection.findOne({Title: title});
+        if (!topic){
+            return {success: false};
+        }
+
+        const result = await topicsCollection.updateOne(
+            { Title: title }, 
+            { $push: { Subscribers: user_ID } }
+        );
+
+        if (result.modifiedCount === 1) {
+            return { success: true };
+        } else {
+            return { success: false };
+        }
+
+
     } finally {
         await dataContext.close();
     }
@@ -73,4 +106,5 @@ module.exports = {
     getAllTopics,
     postTopic,
     postToTopic,
+    subscribeToTopic,
 }
