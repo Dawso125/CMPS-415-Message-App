@@ -35,7 +35,10 @@
                     <input type="hidden" name="title" value="<%= topic.Title %>">
                     <button type="submit">Add Post to Topic</button>
                 </form>
-                <button type="submit">Subscribe to Topic</button>
+                <form action="/subscribeToTopic" method="post">
+                    <input type="hidden" name="title" value="<%= topic.Title %>">
+                    <button type="submit">Subscribe to Topic</button>
+                </form>
                 <hr>
                 <br>
             <% }); %>
