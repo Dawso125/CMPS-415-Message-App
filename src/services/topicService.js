@@ -22,7 +22,7 @@ async function postTopic(title){
 
         // find an existing topic first, prevent duplicates
         const existingTopic = await topicsCollection.findOne({Title: title});
-        
+
         if (existingTopic){
             return {success: false};
         }
@@ -30,7 +30,7 @@ async function postTopic(title){
         var createdAt = Date.now().toString();
         var newTopic = {
             Title: title,
-            Posts: [], // Insert the post into an array
+            Posts: [], 
             Subscribers: [],
             CreatedAt: createdAt
         }

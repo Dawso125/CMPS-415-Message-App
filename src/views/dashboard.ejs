@@ -25,6 +25,7 @@
 			<p class="lead">Not logged in</p>
 			<% } %>
 
+
 			<div class="d-grid gap-2">
 				<a href="/createTopic" class="btn btn-primary home-btn"
 					>Create New Topic</a
@@ -49,9 +50,10 @@
 						Add Post to Topic
 					</button>
 				</form>
-				<button type="submit" class="btn btn-outline-primary home-btn">
-					Subscribe to Topic
-				</button>
+				<form action="/subscribeToTopic" method="post">
+                    <input type="hidden" name="title" value="<%= topic.Title %>">
+                    <button type="submit">Subscribe to Topic</button>
+                </form>
 				<hr class="my-4" />
 				<% }); %>
 			</ul>
