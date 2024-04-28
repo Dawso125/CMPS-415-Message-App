@@ -8,7 +8,7 @@ async function getAllTopics() {
 		await dataContext.connect();
 		const database = dataContext.client.db("MyDBexample"); // select the db
 		const topicsCollection = database.collection("EXP-MONGO"); // select the collection
-		return await topicsCollection.find({ Title: { $exists: true } }).toArray(); // find all topics and convert to array
+		return await topicsCollection.find({ Title: { $exists: true } }).sort({ CreatedAt: -1}).toArray(); // find all topics and convert to array
 	} finally {
 		await dataContext.close();
 	}
@@ -22,7 +22,7 @@ async function postTopic(title){
 
         // find an existing topic first, prevent duplicates
         const existingTopic = await topicsCollection.findOne({Title: title});
-        
+
         if (existingTopic){
             return {success: false};
         }
@@ -30,7 +30,7 @@ async function postTopic(title){
         var createdAt = Date.now().toString();
         var newTopic = {
             Title: title,
-            Posts: [], // Insert the post into an array
+            Posts: [], 
             Subscribers: [],
             CreatedAt: createdAt
         }
@@ -95,7 +95,6 @@ async function subscribeToTopic(title, user_ID){
         } else {
             return { success: false };
         }
-
 
     } finally {
         await dataContext.close();
