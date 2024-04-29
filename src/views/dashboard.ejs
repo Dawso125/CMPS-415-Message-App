@@ -88,7 +88,6 @@
 			<p class="lead">Not logged in</p>
 			<% } %>
 
-
 			<div class="d-grid gap-2">
 				<a href="/createTopic" class="btn">Create New Topic</a>
 			</div>
@@ -99,7 +98,8 @@
 				<li class="list-group-item">Title: <%= topic.Title %></li>
 				<% if (topic.Posts && topic.Posts.length > 0) { %>
 				<li class="list-group-item">
-					Posts: <% topic.Posts.reverse().forEach(function(post) { %> <%= post %><br />
+					Posts: <% topic.Posts.reverse().forEach(function(post) { %> <%= post
+					%><br />
 					<% }); %>
 				</li>
 				<% } else { %>
@@ -110,10 +110,37 @@
 					<button type="submit" class="btn">Add Post to Topic</button>
 				</form>
 
-				<form action="/subscribeToTopic" method="post">
-                    <input type="hidden" name="title" value="<%= topic.Title %>">
-                    <button type="submit" class="btn btn-outline-primary">Subscribe to Topic</button>
-                </form>
+				<form action="/unsubscribeFromTopic" method="post">
+					<input type="hidden" name="title" value="<%= topic.Title %>" />
+					<div class="d-flex align-items-center">
+						<% if (topic.Subscribers && topic.Subscribers.includes(username)) {
+						%>
+						<button
+							type="button"
+							class="btn btn-outline-primary mr-2"
+							style="
+								background-color: #1b5633 !important;
+								border-color: #ffc629 !important;
+								color: #ffc629 !important;
+							"
+							disabled
+						>
+							Subscribed
+						</button>
+						<button
+							type="submit"
+							class="btn btn-outline-primary"
+							style="margin-left: 5px"
+						>
+							Unsubscribe
+						</button>
+						<% } else { %>
+						<button type="submit" class="btn btn-outline-primary">
+							Subscribe to Topic
+						</button>
+						<% } %>
+					</div>
+				</form>
 
 				<hr class="my-4" />
 				<% }); %>

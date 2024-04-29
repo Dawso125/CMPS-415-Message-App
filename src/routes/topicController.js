@@ -60,3 +60,5 @@ topicController.post('/subscribeToTopic', async function (req, res){
 });
 
 module.exports = topicController;
+
+
