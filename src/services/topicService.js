@@ -8,7 +8,8 @@ async function getAllTopics() {
 		await dataContext.connect();
 		const database = dataContext.client.db("MyDBexample"); // select the db
 		const topicsCollection = database.collection("EXP-MONGO"); // select the collection
-		return await topicsCollection.find({ Title: { $exists: true } }).sort({ CreatedAt: -1}).toArray(); // find all topics and convert to array
+		const topics = await topicsCollection.find({ Title: { $exists: true } }).sort({ CreatedAt: -1}).toArray(); // find all topics and convert to array
+        return topics;
 	} finally {
 		await dataContext.close();
 	}
