@@ -59,4 +59,19 @@ topicController.post('/subscribeToTopic', async function (req, res){
 	}
 });
 
+topicController.post('/unsubscribeFromTopic', async function (req, res){
+	const {title}= req.body;
+	var user_ID = req.session.username;
+	try {
+		const result = await topicService.unsubscribeFromTopic(title, user_ID);
+		if (result.success){
+			console.log(user_ID," has been subscribed to", title);
+			res.redirect('/dashboard');
+		}
+	} catch (error){
+		console.log(statusCodes.BAD_REQUEST);
+		console.log("Failed to unsubscribe from topic", error);
+	}
+});
+
 module.exports = topicController;

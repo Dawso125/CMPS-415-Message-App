@@ -1,4 +1,3 @@
-// Import express
 const express = require("express");
 
 // Create a router
