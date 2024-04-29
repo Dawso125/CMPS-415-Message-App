@@ -6,6 +6,7 @@ const userController = require("./routes/userController.js");
 const homeController = require("./routes/homeController.js");
 const dashboardController = require("./routes/dashboardController.js");
 const topicController = require("./routes/topicController.js");
+const unsubscribedTopicsController = require("./routes/unsubscribedTopicsController.js")
 
 const app = express();
 
@@ -22,7 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // use the router. dont app.get or stuff
-app.use(homeController, userController, dashboardController, topicController);
+app.use(homeController, userController, dashboardController, topicController, unsubscribedTopicsController);
 
 
 // Start the server

@@ -81,7 +81,7 @@
 	</head>
 	<body class="home-body">
 		<div class="container">
-			<h1 class="home-heading">The Roaring Dashboard</h1>
+			<h1 class="home-heading">The Roaring Unsubscribed Topics</h1>
 			<% if (username) { %>
 			<h2 class="lead">Logged in as: <%= username %></h2>
 			<% } else { %>
@@ -99,7 +99,7 @@
 				<li class="list-group-item">Title: <%= topic.Title %></li>
 				<% if (topic.Posts && topic.Posts.length > 0) { %>
 				<li class="list-group-item">
-					Posts: <% topic.Posts.reverse().forEach(function(post) { %> <%= post %><br />
+					Posts: <% topic.Posts.forEach(function(post) { %> <%= post %><br />
 					<% }); %>
 				</li>
 				<% } else { %>
@@ -119,6 +119,5 @@
 				<% }); %>
 			</ul>
 		</div>
-		<a href="/unsubscribedTopics"><button>Subscribe to new Topics</button></a>
 	</body>
 </html>
