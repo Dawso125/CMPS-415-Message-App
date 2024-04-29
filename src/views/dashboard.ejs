@@ -43,13 +43,13 @@
 			}
 
 			.btn {
-				margin-top: 10px;
 				padding: 10px 20px;
 				background-color: #ffc629;
 				color: #1b5633;
 				text-decoration: none;
 				border-radius: 5px;
 				transition: background-color 0.3s;
+				margin: 5px; /* Margin 5px for all buttons */
 			}
 
 			.btn:hover {
@@ -77,6 +77,13 @@
 				margin: 20px 0;
 				border-color: #ddd;
 			}
+
+			.btn-container {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				margin-bottom: 20px;
+			}
 		</style>
 	</head>
 	<body class="home-body">
@@ -88,8 +95,9 @@
 			<p class="lead">Not logged in</p>
 			<% } %>
 
-			<div class="d-grid gap-2">
+			<div class="btn-container">
 				<a href="/createTopic" class="btn">Create New Topic</a>
+				<a href="/unsubscribedTopics" class="btn">Subscribe to New Topics!</a>
 			</div>
 
 			<h3>All Topics:</h3>
@@ -146,6 +154,5 @@
 				<% }); %>
 			</ul>
 		</div>
-		<a href="/unsubscribedTopics"><button>Subscribe to new Topics!</button></a>
 	</body>
 </html>
