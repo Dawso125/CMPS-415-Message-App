@@ -9,7 +9,7 @@ const dashboardController = express.Router();
 dashboardController.get("/dashboard", async function (req, res) {
 	try {
 		const username = req.session.username
-		const topics = await topicService.getAllTopics();
+		const topics = await topicService.getAllSubscribedTopics(username);
         console.log("Fetching all Topics: ",topics);
 		res.render("dashboard", { username: username, topics: topics, error: null })
 	} catch (error) {
