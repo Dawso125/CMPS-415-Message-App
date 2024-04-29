@@ -5,13 +5,15 @@ const dataContext = DataContext.getInstance(uri)
 
 async function getAllTopics() {
 	try {
-		await dataContext.connect();
-		const database = dataContext.client.db("MyDBexample"); // select the db
-		const topicsCollection = database.collection("EXP-MONGO"); // select the collection
-		const topics = await topicsCollection.find({ Title: { $exists: true } }).sort({ CreatedAt: -1}).toArray(); // find all topics and convert to array
-        return topics;
+		await dataContext.connect()
+		const database = dataContext.client.db("MyDBexample") // select the db
+		const topicsCollection = database.collection("EXP-MONGO") // select the collection
+		return await topicsCollection
+			.find({ Title: { $exists: true } })
+			.sort({ CreatedAt: -1 })
+			.toArray() // find all topics and convert to array
 	} finally {
-		await dataContext.close();
+		await dataContext.close()
 	}
 }
 
@@ -21,28 +23,31 @@ async function getAllSubscribedTopics(user_ID) {
 		const database = dataContext.client.db("MyDBexample") // select the db
 		const topicsCollection = database.collection("EXP-MONGO") // select the collection
 
-        const topics = await topicsCollection
-        .find({ Subscribers: user_ID }) // Only retrieve topics where user_ID is present in Posts array
-		.sort({ CreatedAt: -1 })
-		.toArray();
-        console.log(topics);
-        return topics;
+		const topics = await topicsCollection
+			.find({ Subscribers: user_ID }) // Only retrieve topics where user_ID is present in Posts array
+			.sort({ CreatedAt: -1 })
+			.toArray()
+		console.log(topics)
+		return topics
 	} finally {
 		await dataContext.close()
 	}
 }
 
-async function getAllNonSubscribedTopics(user_ID){
-    try {
-		await dataContext.connect();
+async function getAllNonSubscribedTopics(user_ID) {
+	try {
+		await dataContext.connect()
 		const database = dataContext.client.db("MyDBexample") // select the db
 		const topicsCollection = database.collection("EXP-MONGO") // select the collection
 
-        const topics = await topicsCollection
-        .find({ Subscribers: {$ne: user_ID }}) // Only retrieve topics where user_ID is present in Subscribers array
-		.toArray();
-        console.log("Unsubbed Topics", topics);
-        return topics;
+		const topics = await topicsCollection
+			.find({
+				Subscribers: { $ne: user_ID }, // Only retrieve topics where user_ID is not present in Subscribers array
+				Password: { $exists: false }, 
+			})
+			.toArray();
+		console.log("Unsubbed Topics", topics)
+		return topics
 	} finally {
 		await dataContext.close()
 	}
@@ -138,6 +143,6 @@ module.exports = {
 	postTopic,
 	postToTopic,
 	subscribeToTopic,
-    getAllSubscribedTopics,
-    getAllNonSubscribedTopics,
+	getAllSubscribedTopics,
+	getAllNonSubscribedTopics,
 }
