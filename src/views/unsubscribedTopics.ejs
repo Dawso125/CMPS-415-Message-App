@@ -105,10 +105,6 @@
 				<% } else { %>
 				<li class="list-group-item">No posts available</li>
 				<% } %>
-				<form action="/addPostToTopic" method="get">
-					<input type="hidden" name="title" value="<%= topic.Title %>" />
-					<button type="submit" class="btn">Add Post to Topic</button>
-				</form>
 
 				<form action="/subscribeToTopic" method="post">
                     <input type="hidden" name="title" value="<%= topic.Title %>">
