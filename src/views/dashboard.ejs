@@ -99,7 +99,7 @@
 				<li class="list-group-item">Title: <%= topic.Title %></li>
 				<% if (topic.Posts && topic.Posts.length > 0) { %>
 				<li class="list-group-item">
-					Posts: <% topic.Posts.forEach(function(post) { %> <%= post %><br />
+					Posts: <% topic.Posts.reverse().forEach(function(post) { %> <%= post %><br />
 					<% }); %>
 				</li>
 				<% } else { %>
