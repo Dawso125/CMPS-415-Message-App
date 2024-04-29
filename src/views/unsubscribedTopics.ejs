@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>The Roaring Dashboard</title>
+		<!-- Link to Bootstrap CSS file -->
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+		/>
+		<style>
+			/* Custom styles for the page */
+			.home-body {
+				font-family: Arial, sans-serif;
+				margin: 0;
+				padding: 0;
+				background-color: #e9e3e6; /* Background color */
+				color: #1b5633; /* Text color */
+			}
+
+			.container {
+				max-width: 800px;
+				margin: 50px auto;
+				padding: 20px;
+				background-color: #1b5633; /* Container background color */
+				border-radius: 10px; /* Rounded corners */
+				box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
+			}
+
+			.home-heading {
+				font-size: 36px;
+				margin-bottom: 20px;
+				text-align: center;
+				color: #e9e3e6; /* Heading color */
+			}
+
+			.lead {
+				font-size: 18px;
+				margin-bottom: 20px;
+				text-align: center;
+				color: #e9e3e6; /* Lead text color */
+			}
+
+			.btn {
+				margin-top: 10px;
+				padding: 10px 20px;
+				background-color: #ffc629;
+				color: #1b5633;
+				text-decoration: none;
+				border-radius: 5px;
+				transition: background-color 0.3s;
+			}
+
+			.btn:hover {
+				background-color: #736f72;
+				color: #e9e3e6;
+				border-color: #e9e3e6;
+			}
+
+			.list-group {
+				margin-top: 20px;
+			}
+
+			.list-group-item {
+				background-color: #f5f5f5;
+				border-color: #ddd;
+				color: #333;
+			}
+
+			h3 {
+				color: #ddd;
+				font-weight: 700;
+			}
+
+			hr {
+				margin: 20px 0;
+				border-color: #ddd;
+			}
+		</style>
+	</head>
+	<body class="home-body">
+		<div class="container">
+			<h1 class="home-heading">The Roaring Unsubscribed Topics</h1>
+			<% if (username) { %>
+			<h2 class="lead">Logged in as: <%= username %></h2>
+			<% } else { %>
+			<p class="lead">Not logged in</p>
+			<% } %>
+
+
+			<div class="d-grid gap-2">
+				<a href="/createTopic" class="btn">Create New Topic</a>
+			</div>
+
+			<h3>All Topics:</h3>
+			<ul class="list-group">
+				<% topics.forEach(function(topic) { %>
+				<li class="list-group-item">Title: <%= topic.Title %></li>
+				<% if (topic.Posts && topic.Posts.length > 0) { %>
+				<li class="list-group-item">
+					Posts: <% topic.Posts.forEach(function(post) { %> <%= post %><br />
+					<% }); %>
+				</li>
+				<% } else { %>
+				<li class="list-group-item">No posts available</li>
+				<% } %>
+				<form action="/addPostToTopic" method="get">
+					<input type="hidden" name="title" value="<%= topic.Title %>" />
+					<button type="submit" class="btn">Add Post to Topic</button>
+				</form>
+
+				<form action="/subscribeToTopic" method="post">
+                    <input type="hidden" name="title" value="<%= topic.Title %>">
+                    <button type="submit" class="btn btn-outline-primary">Subscribe to Topic</button>
+                </form>
+
+				<hr class="my-4" />
+				<% }); %>
+			</ul>
+		</div>
+	</body>
+</html>

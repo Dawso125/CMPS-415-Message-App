@@ -34,6 +34,22 @@ async function getAllSubscribedTopics(user_ID) {
 	}
 }
 
+async function getAllNonSubscribedTopics(user_ID){
+    try {
+		await dataContext.connect();
+		const database = dataContext.client.db("MyDBexample") // select the db
+		const topicsCollection = database.collection("EXP-MONGO") // select the collection
+
+        const topics = await topicsCollection
+        .find({ Subscribers: {$ne: user_ID }}) // Only retrieve topics where user_ID is present in Subscribers array
+		.toArray();
+        console.log("Unsubbed Topics", topics);
+        return topics;
+	} finally {
+		await dataContext.close()
+	}
+}
+
 async function postTopic(title) {
 	try {
 		await dataContext.connect()
@@ -125,4 +141,5 @@ module.exports = {
 	postToTopic,
 	subscribeToTopic,
     getAllSubscribedTopics,
+    getAllNonSubscribedTopics,
 }
