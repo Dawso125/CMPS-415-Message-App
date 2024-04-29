@@ -138,6 +138,32 @@ async function subscribeToTopic(title, user_ID) {
 	}
 }
 
+async function unsubscribeFromTopic(title, user_ID){
+    try {
+		await dataContext.connect()
+		const database = dataContext.client.db("MyDBexample") // select the db
+		const topicsCollection = database.collection("EXP-MONGO")
+
+		const topic = await topicsCollection.findOne({ Title: title })
+		if (!topic) {
+			return { success: false }
+		}
+
+		const result = await topicsCollection.updateOne(
+			{ Title: title },
+			{ $pull: { Subscribers: user_ID } }
+		)
+
+		if (result.modifiedCount === 1) {
+			return { success: true }
+		} else {
+			return { success: false }
+		}
+	} finally {
+		await dataContext.close()
+	}
+}
+
 module.exports = {
 	getAllTopics,
 	postTopic,
@@ -145,4 +171,5 @@ module.exports = {
 	subscribeToTopic,
 	getAllSubscribedTopics,
 	getAllNonSubscribedTopics,
+    unsubscribeFromTopic,
 }
