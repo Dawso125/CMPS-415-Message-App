@@ -1,3 +1,4 @@
+const session = require("express-session")
 const uri = require("../data/connectionString.js")
 const DataContext = require("../data/datacontext.js")
 
@@ -53,7 +54,34 @@ async function getAllNonSubscribedTopics(user_ID) {
 	}
 }
 
-async function postTopic(title) {
+// add a user to the array of subscribers in a topic
+async function subscribeToTopic(title, user_ID) {
+	try {
+		await dataContext.connect()
+		const database = dataContext.client.db("MyDBexample") // select the db
+		const topicsCollection = database.collection("EXP-MONGO")
+
+		const topic = await topicsCollection.findOne({ Title: title })
+		if (!topic) {
+			return { success: false }
+		}
+
+		const result = await topicsCollection.updateOne(
+			{ Title: title },
+			{ $push: { Subscribers: user_ID } }
+		)
+
+		if (result.modifiedCount === 1) {
+			return { success: true }
+		} else {
+			return { success: false }
+		}
+	} finally {
+		await dataContext.close()
+	}
+}
+
+async function postTopic(title, user_ID) {
 	try {
 		await dataContext.connect()
 		const database = dataContext.client.db("MyDBexample") // select the db
@@ -74,6 +102,7 @@ async function postTopic(title) {
 			CreatedAt: createdAt,
 		}
 		await topicsCollection.insertOne(newTopic)
+		await subscribeToTopic(newTopic.Title, user_ID);
 		return { success: true }
 	} finally {
 		await dataContext.close()
@@ -111,32 +140,7 @@ async function postToTopic(title, post) {
 	}
 }
 
-// add a user to the array of subscribers in a topic
-async function subscribeToTopic(title, user_ID) {
-	try {
-		await dataContext.connect()
-		const database = dataContext.client.db("MyDBexample") // select the db
-		const topicsCollection = database.collection("EXP-MONGO")
 
-		const topic = await topicsCollection.findOne({ Title: title })
-		if (!topic) {
-			return { success: false }
-		}
-
-		const result = await topicsCollection.updateOne(
-			{ Title: title },
-			{ $push: { Subscribers: user_ID } }
-		)
-
-		if (result.modifiedCount === 1) {
-			return { success: true }
-		} else {
-			return { success: false }
-		}
-	} finally {
-		await dataContext.close()
-	}
-}
 
 async function unsubscribeFromTopic(title, user_ID){
     try {
