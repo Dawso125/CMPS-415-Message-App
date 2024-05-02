@@ -10,8 +10,9 @@ topicController.get("/createTopic", async function (req, res) {
 
 topicController.post("/createTopic", async function (req, res) {
 	const { title } = req.body;
+	var user_ID = req.session.username;
 	try {
-		const result = await topicService.postTopic(title);
+		const result = await topicService.postTopic(title, user_ID);
 		if (result.success) {
 			console.log("New Topic Created: ", title);
 			res.redirect("/dashboard"); // Redirect to dashboard after creating topic
